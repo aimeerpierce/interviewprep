@@ -10,6 +10,7 @@ public class linkedList<T> implements Iterable<T> {
 			this.next = next;
 		}
 	}
+
 	//Iterator class
 	public Iterator<T> iterator(){
 		return new LinkedListIterator();
