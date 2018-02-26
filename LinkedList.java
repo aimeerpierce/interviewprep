@@ -1,6 +1,7 @@
 import java.util.*;
+import java.util.NoSuchElementException;
 
-public class LinkedList<T> implements Iterable<T> {
+public class LinkedList<T> {// implements Iterable<T> {
 	//Node class
 	private static class Node<T> { //@param <T> generic
 		private T data;
@@ -11,7 +12,7 @@ public class LinkedList<T> implements Iterable<T> {
 		}
 	}
 
-	//Iterator class
+/*	//Iterator class
 	public Iterator<T> iterator(){
 		return new LinkedListIterator();
 	}
@@ -30,7 +31,7 @@ public class LinkedList<T> implements Iterable<T> {
 			return res;
 		}
 		public void remove() { throw new UnsupportedOperatorException();}
-	}
+	}*/
 
 	private Node<T> head;
 	public LinkedList(){ //empty list
@@ -44,12 +45,12 @@ public class LinkedList<T> implements Iterable<T> {
 	}
 
 	public T getFirst(){
-		if (head == null) {throw NoSuchElementException();}
+		if (head == null) {throw new NoSuchElementException();}
 		return head.data;
 	}
 
 	public T removeFirst(){
-		if (head == null) throw NoSuchElementException();
+		if (head == null) throw new NoSuchElementException();
 		T temp = getFirst();
 		head = head.next;
 		return temp;
@@ -59,13 +60,13 @@ public class LinkedList<T> implements Iterable<T> {
 		if (head == null){
 			addFirst(n);
 		} else {
-			T temp = getFirst();
+			Node<T> temp = head;
 			while(temp.next != null){ temp = temp.next;}
 			temp.next = new Node<T>(n, null);
 		}
 	}
 	public T getLast(T n){
-		if (head == null) throw NoSuchElementException();
+		if (head == null) throw new NoSuchElementException();
 		Node<T> temp = head;
 		while(temp.next != null){
 			temp = temp.next;
@@ -75,7 +76,7 @@ public class LinkedList<T> implements Iterable<T> {
 
 	public void add(T data, int index){
 		Node<T> temp = head;
-		if(temp == null) throw NoSuchElementException();
+		if(temp == null) throw new NoSuchElementException();
 		for(int i = 0; i < index; i++){
 			temp = temp.next;
 		}
@@ -84,7 +85,7 @@ public class LinkedList<T> implements Iterable<T> {
 	}
 
 	public void clear(){
-		if (head == null) throw NoSuchElementException();
+		if (head == null) throw new NoSuchElementException();
 		Node<T> temp;
 		while(head.next != null){
 			temp = head.next;
@@ -94,37 +95,45 @@ public class LinkedList<T> implements Iterable<T> {
 
 	}
 	public boolean contains(T data){
-		for(T temp : this){
-			if(temp.equals(data)) return true;
+		if (head == null) throw new NoSuchElementException();
+		Node<T> temp = head;
+		while(temp != null){
+			if(temp.data.equals(data)) return true;
+			temp = temp.next;
 		}
 		return false;
 	}
 
 	public T get(int index){
-		if (head == null) throw NoSuchElementException();
+		if (head == null) throw new NoSuchElementException();
 		Node<T> temp = head;
 		int i = 0;
 		while(i < index){
 			temp = temp.next;
 			i++;
 		}
-		if (temp == null) throw OutOfBoundsException();
+		if (temp == null) throw new NoSuchElementException();
 		return temp.data;
 	}
 	public void insertAfter(T key, T toInsert){
-		T temp = getFirst();
-		for(temp:this){
-			if(temp.equals(key)){
+		if (head == null) throw new NoSuchElementException();
+		Node<T> temp = head;
+		while(temp != null){
+			if(temp.data.equals(key)){
 				Node<T> n = new Node<T>(toInsert,temp.next);
 				temp.next = n;
+			}else{
+				temp = temp.next;
 			}
 		}
 	}
 	public void insertBefore(T key, T toInsert){
-		T temp = getFirst();
-		for(temp:this){
-			if(temp.equals(key)){
+		if (head == null) throw new NoSuchElementException();
+		Node<T> temp = head;
+		while(temp != null){
+			if(temp.data.equals(key)){
 				Node<T> n = new Node<T>(toInsert,temp);
+				temp = temp.next;
 			}
 		}
 	}
@@ -146,22 +155,25 @@ public class LinkedList<T> implements Iterable<T> {
 			}
 		}
 	}
-	public LinkedList<T> deepCopy(){
+	public LinkedList<Node<T>> deepCopy(){
 		Map<Node<T>,Node<T>> map = new HashMap<Node<T>,Node<T>>();
+		LinkedList<Node<T>> list = new LinkedList<Node<T>>();
 		Node<T> newhead = new Node<T>(head.data,null);
 		Node<T> p = head;
 		Node<T> n = newhead;
 
 		map.put(head, newhead); //put(key,value)
+		list.addFirst(map.get(p));
 		p = p.next;
 		//create copies of nodes and relate them to each other
 		while(p != null){
 			Node<T> temp = new Node<T>(p.data,null);
 			map.put(p,temp);
 			n.next = map.get(p);
+			list.addLast(map.get(p));
 			p = p.next;
 		}
-
+		return list;
 	}
 	public LinkedList<T> reverse(){
 		LinkedList<T> rList = new LinkedList<T>();
