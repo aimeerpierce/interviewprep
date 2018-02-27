@@ -1,3 +1,5 @@
+
+//1.4
 //given a string, check to see if it is a permeation of a palindrome
 //e.g. tact coa --> taco cat, atco cta
 //so the letters have to have 2 of eac, letter and one different one!

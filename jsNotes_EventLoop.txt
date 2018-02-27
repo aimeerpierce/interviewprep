@@ -1,0 +1,54 @@
+https://www.youtube.com/watch?time_continue=181&v=8aGhZQkoFbQ
+
+Javascript is...
+
+a single-threaded non-blocking asynchronous concurrent language
+it has a call stack, an event loop, a callback queue some other apis and stuff
+
+RUNTIME
+memory is allocated in a heapf
+
+execution happens in a call stack
+
+CALL STACK
+javascript is single threaded --> one thing at a time
+the call stack records where in the program we 'are'
+	If we step into a function, we push something on to the top of the stack
+	If we return from a function, we pop it off the top of the stack
+
+BLOCKING
+what causes javascript to be slow?
+Synchronous requests block the stack - nothing else can 'happen' - bad for browsers
+This is why JS is asynchronous!
+
+CONCURRENCY & THE EVENT LOOP
+while the runtime is single threaded...the browser is more than just the runtime!
+The browser gives us web apis that we can make calls to, and they exist outside the call stack! Javascript usees these tools to create concurrency.
+
+webapis push their 'thread' or callback to a task queue, not the call stack
+this is because if they just went to the stack after they were done, they could occur unpredictably
+
+EVENT LOOP
+keeps track of the stack(last-in-first-out) and task queue (first-in-first-out)
+IF the stack is empty, it pushes the first thing on the task queue to the stack to run
+
+calling setTimeout(function cb(), 0); --> this causes cb() to go directly to the task queue (because it executes in '0' time). However, it still waits for the stack to be empty to execute!
+
+CALLBACKS
+a function that another function calls
+or
+an asynchronous callback (something that will get pushed to the task queue)
+
+Use callbacks so that the stack is not blocked. The callbacks get sent to the task queue, and wait to be called until the stack is empty. This allows the stack to continue running code.
+
+
+RENDERING IN LE BROWSER
+Rendering is blocked while there's stuff in the stack
+	..during syncrhonous calls
+	..while callbacks are queued
+
+Sooo "don't block the event loop" means "don't put slow code on the stack"
+
+
+VAR vs LET
+var is scoped to the nearest function block and let is scoped to the nearest enclosing block. Both are global if outside any block.

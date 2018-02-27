@@ -1,0 +1,38 @@
+2/7
+TOPICS
+	Linked Lists
+	Generics
+	Cloning
+
+LINKED LISTS
+Linear data structure where each element is a separate object
+Doubly linked: Each element (node) has the data and two references, next and previous
+Singly Linked: Each element (node) has the data and a reference to the next node
+	(The last node has a null reference)
+Linked lists are dynamic - the number of nodes can grow/shrink on demand
+	Good for dealing with an unknown # of objects
+	Bad for direct access to an individual node
+		(If you want a particular item, you must start at the head and hit each node until you reach the desired node)
+	Uses more memory than an array
+	Better than arrays for adding/deleting nodes
+
+GENERICS
+"Generics allow you to abstract over types" --> This means that the type (int, String, etc) is abstracted away from the object in question, that is, it has been predetermined and you don't need to specify when you're using said object.
+
+Why are generics beneficial?
+We don't *need* generics per say, as we could just use a type cast. However, implementing generics allows the compiler to check the correctness at compile-time, rather than at a single point in the code with a cast.
+
+Relying on the compiler in this way improves readability and robustness.
+
+***note about sybtypes***
+In general, if Foo is a subtype (subclass or subinterface) of Bar, and G is some generic type declaration, it is not the case that G<Foo> is a subtype of G<Bar>. This is probably the hardest thing you need to learn about generics, because it goes against our deeply held intuitions.
+
+
+2/20
+TOPICS
+	Hash Tables
+
+HASH TABLES
+Maps keys to values for highly efficient lookup
+	Implementation 1: Array of linked lists and hash code function. Map the given hash code to an index in the array. At a given index, there are a linked list of keys and values.
+	Implementation 2: Balanced binary tree.
