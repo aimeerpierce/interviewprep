@@ -36,3 +36,17 @@ HASH TABLES
 Maps keys to values for highly efficient lookup
 	Implementation 1: Array of linked lists and hash code function. Map the given hash code to an index in the array. At a given index, there are a linked list of keys and values.
 	Implementation 2: Balanced binary tree.
+
+
+3/2
+TOPICS
+	Stacks and Queues
+
+STACK
+LIFO (last in first out) like a stack of paper
+pop(): remove top item; push(item): add item; peek(): return the top of the stack; isEmpty(): return true if empty
+Does not offer O(1) time to access the nth item, but it does allow for constant time add/removes, and doesn't require shifting elements around
+
+QUEUE
+FIFO (first in first out) like waiting in a line, first come first serve
+queue(item): adds item; dequeue(): removes item; peek(): returns first item's data; isEmpty(): return true if empty

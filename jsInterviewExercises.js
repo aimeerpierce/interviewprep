@@ -25,7 +25,7 @@ console.log(greet({ name: 'amy'}))
 console.log(greet_fixed({ name: 'amy' }))*/
 
 
-/*//2
+//2
 //Why does this print '4444'?
 for (var i = 0; i < 4; i++) {
   setTimeout(() => console.log(i), 0)
@@ -35,7 +35,7 @@ for (var i = 0; i < 4; i++) {
   setTimeout(function cb(){
   	console.log(i);
   }, 0)
-}*/
+}
 
 //ANSWER
 //it has to do with the Javascript Event Loop!
@@ -43,11 +43,11 @@ for (var i = 0; i < 4; i++) {
 //it will log 4 since i=4 when the callback is pushed from the event queue to the call stack
 //if we use let instead of var we will print 0,1,2,3 since
 //let = i is scoped within the enclosing block...the callback function?
-/*for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 4; i++) {
   setTimeout(function cb(){
   	console.log(i);
   },0)
-}*/
+}
 
 //3
 //we want this to print 'doggo'...but it logs undefined! why?
@@ -76,26 +76,26 @@ dog.sayName()*/
 
 //4
 //I want to bark(), but I get an error. why?
-/*function Dog (name) {
+function Dog (name) {
   this.name = name
 }
 Dog.bark = function () {
   console.log(this.name + ' says woof')
 }
 let fido = new Dog('fido')
-fido.bark()*/
+fido.bark()
 
 //bark function is not defined when Dog is constructed
 //so we need to link the bark function to Dog!
 //ANSWER
-/*function Dog (name) {
+function Dog (name) {
   this.name = name
 }
 Dog.prototype.bark = function () {
   console.log(this.name + ' says woof')
 }
 let fido = new Dog('fido')
-fido.bark()*/
+fido.bark()
 
 //5
 //Explain isBig...
