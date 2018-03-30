@@ -50,3 +50,67 @@ Does not offer O(1) time to access the nth item, but it does allow for constant 
 QUEUE
 FIFO (first in first out) like waiting in a line, first come first serve
 queue(item): adds item; dequeue(): removes item; peek(): returns first item's data; isEmpty(): return true if empty
+
+
+3/4
+TOPICS
+	Trees and Graphs
+
+TREES
+Each tree has a root node with zero or more child nodes. Each child node has zero or more child nodes.
+
+BINARY TREE
+Each node has a maximum of two children
+
+BINARY SEARCH TREE
+all left descendants <= n < all right descendants. True for all nodes.
+
+BALANCED TREE
+O(logN) time for insert and find
+
+COMPLETE BINARY TREE
+Every level of the tree is filled, meaning every node has a child from left-to-right, except for maybe the last one
+
+FULL BINARY TREE
+A binary tree which every node has zero or two children. No node has only one child.
+
+PERFECT BINARY TREE
+Full and complete binary tree: all leaf (nodes w/o children) nodes are at the same level and that level has the max # of nodes
+
+TREE TRAVERSAL
+In-Order: left branch, current node, right branch. Will visit the nodes of a binary search tree in ascending order.
+Pre-Order: visits current node before child nodes (l, r). The root node is always the first node visited.
+Post-Order: visits the current node after child nodes (l,r). The root node is always the last node visited.
+
+BINARY HEAP
+Min-heap: a complete binary tree where each node is smaller than it's children. Root is minimum value.
+Max-heap: a complete binary tree where each node is larger than it's children. Root is maximum value.
+
+PREFIX TREE
+n-ary tree in which characters are stored at each node. each path down the tree may represent a word.
+Null nodes are used to indicate complete words.
+Useful for prefix lookups.
+
+
+GRAPHS
+A collection of nodes with edges between (some of) them. A tree is a connected graph w/o cycles.
+
+
+3/15
+TOPICS
+	Javascript:
+		Review
+		Scope
+		Closures
+
+
+
+
+
+
+
+
+
+
+
+

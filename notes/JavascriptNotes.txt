@@ -1,0 +1,235 @@
+https://www.youtube.com/watch?time_continue=181&v=8aGhZQkoFbQ
+https://autotelicum.github.io/Smooth-CoffeeScript/literate/js-intro.pdf
+http://markdalgleish.com/2011/03/self-executing-anonymous-functions/
+
+Javascript is...
+
+a single-threaded non-blocking asynchronous concurrent language
+it has a call stack, an event loop, a callback queue some other apis and stuff
+
+RUNTIME
+memory is allocated in a heapf
+
+execution happens in a call stack
+
+CALL STACK
+javascript is single threaded --> one thing at a time
+the call stack records where in the program we 'are'
+	If we step into a function, we push something on to the top of the stack
+	If we return from a function, we pop it off the top of the stack
+
+BLOCKING
+what causes javascript to be slow?
+Synchronous requests block the stack - nothing else can 'happen' - bad for browsers
+This is why JS is asynchronous!
+
+CONCURRENCY & THE EVENT LOOP
+while the runtime is single threaded...the browser is more than just the runtime!
+The browser gives us web apis that we can make calls to, and they exist outside the call stack! Javascript usees these tools to create concurrency.
+
+webapis push their 'thread' or callback to a task queue, not the call stack
+this is because if they just went to the stack after they were done, they could occur unpredictably
+
+EVENT LOOP
+keeps track of the stack(last-in-first-out) and task queue (first-in-first-out)
+IF the stack is empty, it pushes the first thing on the task queue to the stack to run
+
+calling setTimeout(function cb(), 0); --> this causes cb() to go directly to the task queue (because it executes in '0' time). However, it still waits for the stack to be empty to execute!
+
+CALLBACKS
+a function that another function calls
+or
+an asynchronous callback (something that will get pushed to the task queue)
+
+Use callbacks so that the stack is not blocked. The callbacks get sent to the task queue, and wait to be called until the stack is empty. This allows the stack to continue running code.
+
+
+RENDERING IN LE BROWSER
+Rendering is blocked while there's stuff in the stack
+	..during syncrhonous calls
+	..while callbacks are queued
+
+Sooo "don't block the event loop" means "don't put slow code on the stack"
+
+-----------------------------------------------------------
+
+Values that evaluate to false
+0;
+’ ’; // an empty string
+NaN ; // JavaScript ’s ”not -a- number ” variable
+null ;
+undefined ; // be careful -- undefined can be redefined !
+
+Values that evaluate to true
+’0 ’;
+’any string ’;
+[]; // an empty array
+{}; // an empty object
+1; // any non - zero number
+
+TERNARY OPERATOR
+// set foo to 1 if bar is true ;
+// otherwise , set foo to 0
+var foo = bar ? 1 : 0;
+
+OBJECTS
+nearly everything in JavaScript is an object — arrays, functions, numbers, even strings —
+and they all have properties and methods.
+
+FUNCTIONS
+//A function that returns another function
+var greet = function ( person , greeting ) {
+	var text = greeting + ’, ’ + person ;
+	return function () { console . log ( text ); };
+};
+var greeting = greet ( ’ Rebecca ’ , ’Hello ’);
+greeting ();
+
+SELF-EXECUTING ANONYMOUS FUNCTION
+http://markdalgleish.com/2011/03/self-executing-anonymous-functions/
+(function(){
+  console.log('Hello World!');
+})();
+Those two little brackets (); cause everything contained in the preceding parentheses to be executed immediately.
+What’s useful here is that JavaScript has function level scoping.
+All variables and functions defined within the anonymous function aren’t available to the code outside of it, effectively using closure to seal itself from the outside world.
+
+ARRAYS
+var myArray = ['h','e','l','l'];
+myArray.push('o'); //['h','e','l','l','o']
+myArray.join(''); // 'hello'
+myArray.split(''); // ['h','e','l','l','o']
+
+this KEYWORD
+1. if argument is null, this is set to the global object (window)
+2. If the function being invoked was created using Function.bind, this will be the first argument that
+was passed to bind at the time the function was created.
+3. If the function is being invoked as a method of an object, this will refer to that object.
+4. Otherwise, the function is being invoked as a standalone function not attached to any object, and
+this will refer to the global object.
+
+Function.bind() : method creates a new function that, when called, has its this keyword set to the provided value
+var module = {
+  x: 42,
+  getX: function() {
+    return this.x;
+  }
+}
+
+var retrieveX = module.getX;
+console.log(retrieveX()); // The function gets invoked at the global scope
+// expected output: undefined
+
+var boundGetX = retrieveX.bind(module);
+console.log(boundGetX());
+// expected output: 42
+
+var myName = ’the global object ’ ,
+	sayHello = function () {
+		console . log ( ’Hi! My name is ’ + this . myName );
+	} ,
+	myObject = {
+		myName : ’Rebecca ’
+	};
+
+var myObjectHello = sayHello.bind(myObject);
+sayHello (); // logs ’Hi! My name is the global object ’
+myObjectHello (); // logs ’Hi! My name is Rebecca ’
+
+-----------------------------------------
+
+Funciton.call() and Function.apply() : method calls a function with a specified this value, and arguments provided as an array
+call() accepts argument list
+apply() accepts a single array of arguments
+
+var numbers = [5, 6, 2, 3, 7];
+var max = Math.max.apply(null, numbers);
+console.log(max);
+// expected output: 7
+
+function Product(name, price) {
+  this.name = name;
+  this.price = price;
+}
+
+function Food(name, price) {
+  Product.call(this, name, price);
+  this.category = 'food';
+}
+
+console.log(new Food('cheese', 5).name);
+// expected output: "cheese"
+
+var myObject = {
+sayHello : function () {
+	console . log ( ’Hi! My name is ’ + this . myName );
+	} ,
+	myName : ’Rebecca ’
+};
+var secondObject = {
+	myName : ’Colin ’
+};
+myObject . sayHello (); // logs ’Hi! My name is Rebecca ’
+myObject . sayHello . call ( secondObject ); // logs ’Hi! My name is Colin ’
+
+-------------------------------------------
+
+SCOPE
+When a variable is declared inside of a function using the var keyword, it is only available to code inside
+of that function — code outside of that function cannot access the variable. On the other hand, functions
+defined inside that function will have access to to the declared variable.
+Variables that are declared inside a function without the var keyword are not local to the
+function — JavaScript will traverse the scope chain all the way up to the window scope to find where
+the variable was previously defined.
+
+VAR vs LET
+var is scoped to the nearest function block and let is scoped to the nearest enclosing block. Both are global if outside any block.
+
+CLOSURES
+A closure is an inner function that has access to the outer (enclosing) function’s variables—scope chain.
+The closure has three scope chains:
+	it has access to its own scope (variables defined between its curly brackets),
+	it has access to the outer function’s variables, and
+	it has access to the global variables.
+
+function showName (firstName, lastName) { 
+​var nameIntro = "Your name is ";
+    // this inner function has access to the outer function's variables, including the parameter​
+​function makeFullName () { 
+​return nameIntro + firstName + " " + lastName; 
+}
+​
+​return makeFullName (); 
+} 
+​
+showName ("Michael", "Jackson"); // Your name is Michael Jackson 
+
+------------------------------------------------------------
+
+Closures have access to the outer function’s variable even after the outer function returns
+
+function celebrityName (firstName) {
+    var nameIntro = "This celebrity is ";
+    // this inner function has access to the outer function's variables, including the parameter​
+   function lastName (theLastName) {
+        return nameIntro + firstName + " " + theLastName;
+    }
+    return lastName;
+}
+​
+​var mjName = celebrityName ("Michael"); // At this juncture, the celebrityName outer function has returned.​
+​
+​// The closure (lastName) is called here after the outer function has returned above​
+​// Yet, the closure still has access to the outer function's variables and parameter​
+mjName ("Jackson"); // This celebrity is Michael Jackson 
+
+------------------------------------------------------------
+
+Closures store references to the outer function’s variables; they do not store the actual value.
+
+
+MAP
+new Map([iterable]) where iterable is a key-value pair
+set(key,value)
+get(key)
+has(key)
