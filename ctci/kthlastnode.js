@@ -14,23 +14,27 @@ function kthToLastNode(i, node){
 		console.log('head node is null');
 	}
 
-	temp = node;
+	var temp = node;
 	while(temp.next){
 		count++;
 		temp = temp.next;
 	}
 
-	temp2 = node;
+	var temp2 = node;
 	console.log('count: '+count);
 	console.log('i: '+i);
-	while(temp.next){
-		count++;
+	console.log('temp2 next:'+temp2.next.value);
+	//while(temp2.next){
+		//temp = temp.next;
+		//count++;
 		if(count > i){
 			for(j = 0; j<(count-i); j++){
+				//console.log(temp2.value);
 				temp2 = temp2.next;
 			}
 		}
-	}
+
+	//}
 	return temp2.value;
 }
 
@@ -45,4 +49,4 @@ b.next = c;
 c.next = d;
 d.next = e;
 
-console.log(kthToLastNode(1, a));
+console.log(kthToLastNode(3, a));
